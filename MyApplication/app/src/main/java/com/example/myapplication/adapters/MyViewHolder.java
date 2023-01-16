@@ -19,7 +19,6 @@ public class MyViewHolder extends RecyclerView.ViewHolder {
     ImageView imageView;
     TextView titleView;
     TextView dateView;
-    boolean imageDownloaded;
 
     Handler imgHandler = new Handler(new Handler.Callback() {
         @Override
@@ -27,7 +26,6 @@ public class MyViewHolder extends RecyclerView.ViewHolder {
 
             Bitmap img = (Bitmap)msg.obj;
             imageView.setImageBitmap(img);
-            imageDownloaded = true;
             return true;
         }
     });
@@ -40,11 +38,7 @@ public class MyViewHolder extends RecyclerView.ViewHolder {
     }
 
     public void downloadImage(ExecutorService srv, String path){
-
-        if (!imageDownloaded){
-
             repositoryApp repo = new repositoryApp();
             repo.downloadImage(srv,imgHandler,path);
-        }
     }
 }

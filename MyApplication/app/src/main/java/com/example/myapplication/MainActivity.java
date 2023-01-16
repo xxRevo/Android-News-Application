@@ -92,16 +92,17 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onTabReselected(TabLayout.Tab tab) {}
         });
-        /*
+
         viewPager2.registerOnPageChangeCallback(new ViewPager2.OnPageChangeCallback() {
             @Override
             public void onPageSelected(int position) {
-                super.onPageSelected(position);
                 tabLayout.getTabAt(position).select();
+                super.onPageSelected(position);
             }
         });
-        */
+
     }
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {

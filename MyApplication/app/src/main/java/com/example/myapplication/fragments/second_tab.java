@@ -26,6 +26,18 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
+/*
+recView2.setAdapter(new MyAdapter(getActivity().getApplicationContext(), data, new MyAdapter.ItemClickListener() {
+@Override
+public void onItemClick(DataListClass single_data) {
+        Intent i = new Intent(getContext(), DetailsActivity.class);
+        i.putExtra("selecteddata",single_data);
+        ((AppCompatActivity)getContext()).startActivity(i);
+        }
+        }));
+        return true;
+*/
+
 public class second_tab extends Fragment {
     RecyclerView recView2;
     Handler dataHandler = new Handler(new Handler.Callback() {
@@ -33,7 +45,7 @@ public class second_tab extends Fragment {
         public boolean handleMessage(@NonNull Message msg) {
             List<DataListClass> data = (List<DataListClass>)msg.obj;
 
-            recView2.setAdapter(new MyAdapter(getActivity().getApplicationContext(), data, new MyAdapter.ItemClickListener() {
+            recView2.setAdapter(new MyAdapter(getActivity().getApplicationContext(), data,((ThreadApplication)getActivity().getApplication()).srv ,new MyAdapter.ItemClickListener() {
                 @Override
                 public void onItemClick(DataListClass single_data) {
                     Intent i = new Intent(getContext(), DetailsActivity.class);

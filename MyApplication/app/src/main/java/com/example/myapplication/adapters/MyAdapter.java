@@ -23,31 +23,31 @@ public class MyAdapter extends RecyclerView.Adapter<MyViewHolder> {
     Context context;
     List<DataListClass> data;
     private ItemClickListener myItemListener;
+    ExecutorService srv;
 
-    public MyAdapter(Context context, List<DataListClass> data, ItemClickListener itemClickListener) {
+    public MyAdapter(Context context, List<DataListClass> data, ExecutorService srv ,ItemClickListener itemClickListener) {
         this.context = context;
         this.data = data;
         this.myItemListener = itemClickListener;
+        this.srv = srv;
     }
 
     @NonNull
     @Override
     public MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        return new MyViewHolder(LayoutInflater.from(context).inflate(R.layout.row_layout,parent,false));
-        /*
+        //return new MyViewHolder(LayoutInflater.from(context).inflate(R.layout.row_layout,parent,false));
+
         View root = LayoutInflater.from(context).inflate(R.layout.row_layout,parent,false);
         MyViewHolder holder = new MyViewHolder(root);
         holder.setIsRecyclable(false);
         return holder;
-        */
     }
 
     @Override
     public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
         holder.titleView.setText(data.get(position).getTitle());
         holder.dateView.setText(data.get(position).getDate());
-        //ThreadApplication app = (ThreadApplication)((AppCompatActivity)context).getApplication();
-        //holder.downloadImage(app.srv,data.get(holder.getAdapterPosition()).getImage());
+        holder.downloadImage(srv, data.get(position).getImage());
         holder.itemView.setOnClickListener(view-> {
             myItemListener.onItemClick(data.get(position));
         });

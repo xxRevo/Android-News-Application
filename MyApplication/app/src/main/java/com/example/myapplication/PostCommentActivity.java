@@ -27,7 +27,7 @@ public class PostCommentActivity extends AppCompatActivity {
     EditText editTextComment;
     String name, text, news_id;
     int news_id_int;
-
+    DataListClass selected_data;
     Handler dataHandler = new Handler(new Handler.Callback() {
         @Override
         public boolean handleMessage(@NonNull Message msg) {
@@ -41,7 +41,8 @@ public class PostCommentActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_post_comment);
 
-        news_id_int = (int)getIntent().getSerializableExtra("id_information2");
+        selected_data = (DataListClass) getIntent().getSerializableExtra("selecteddata");
+        news_id_int = selected_data.getId();
         news_id = Integer.toString(news_id_int);
         postCommentButton = findViewById(R.id.SubmitCommentButton);
         editTextName = findViewById(R.id.editTextName);
@@ -54,10 +55,18 @@ public class PostCommentActivity extends AppCompatActivity {
                 repositoryApp repo = new repositoryApp();
                 repo.sendComment(((ThreadApplication)getApplication()).srv, dataHandler, name, text, news_id);
                 Intent intent = new Intent(PostCommentActivity.this, CommentsActivity.class);
-                intent.putExtra("id_information",news_id_int);
+                intent.putExtra("selecteddata",selected_data);
                 startActivity(intent);
             }
         });
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        if(item.getItemId()== android.R.id.home) {
+            finish();
+        }
+        return true;
     }
 
     public boolean onCreateOptionsMenu(Menu menu) {

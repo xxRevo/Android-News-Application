@@ -1,20 +1,45 @@
 package com.example.myapplication;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.example.myapplication.repository.ThreadApplication;
+import com.example.myapplication.repository.repositoryApp;
 import com.example.myapplication.sample_classes.DataListClass;
+
+import java.util.concurrent.ExecutorService;
 
 public class DetailsActivity extends AppCompatActivity {
     int id;
     DataListClass selected_data;
+    ImageView imgView;
+
+    Handler imgHandler = new Handler(new Handler.Callback() {
+        @Override
+        public boolean handleMessage(@NonNull Message msg) {
+
+            Bitmap img = (Bitmap)msg.obj;
+            imgView.setImageBitmap(img);
+            return true;
+        }
+    });
+
+    public void downloadImage(ExecutorService srv, String path){
+        repositoryApp repo = new repositoryApp();
+        repo.downloadImage(srv,imgHandler,path);
+    }
+
     @Override
     @SuppressLint("MissingInflatedId")
     protected void onCreate(Bundle savedInstanceState) {
@@ -25,7 +50,8 @@ public class DetailsActivity extends AppCompatActivity {
                 (DataListClass)getIntent().getSerializableExtra("selecteddata");
         id = selected.getId();
         selected_data = selected;
-        ImageView img = findViewById(R.id.d_imageView);
+        imgView = findViewById(R.id.d_imageView);
+        downloadImage(((ThreadApplication)getApplication()).srv, selected.getImage());
         //img.setImageResource(selected.getImage());
 
         TextView txtTitle = findViewById(R.id.d_textTitle);
@@ -50,11 +76,19 @@ public class DetailsActivity extends AppCompatActivity {
             public boolean onMenuItemClick(MenuItem item) {
                 // Switch to the new activity when the menu item is clicked
                 Intent intent = new Intent(DetailsActivity.this, CommentsActivity.class);
-                intent.putExtra("id_information",id);
+                intent.putExtra("selecteddata",selected_data);
                 startActivity(intent);
                 return true;
             }
         });
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        if(item.getItemId()== android.R.id.home) {
+            finish();
+        }
         return true;
     }
 

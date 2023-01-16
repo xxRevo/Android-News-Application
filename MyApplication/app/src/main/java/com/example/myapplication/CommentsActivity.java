@@ -25,6 +25,7 @@ import java.util.List;
 public class CommentsActivity extends AppCompatActivity {
     RecyclerView recView4;
     int id;
+    DataListClass selected_data;
     Handler dataHandler = new Handler(new Handler.Callback() {
         @Override
         public boolean handleMessage(@NonNull Message msg) {
@@ -34,13 +35,23 @@ public class CommentsActivity extends AppCompatActivity {
             return true;
         }
     });
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        if(item.getItemId()== android.R.id.home) {
+            finish();
+        }
+        return true;
+    }
+
     @SuppressLint("MissingInflatedId")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_comments);
 
-        id = (int)getIntent().getSerializableExtra("id_information");
+        selected_data = (DataListClass) getIntent().getSerializableExtra("selecteddata");
+        id = selected_data.getId();
         repositoryApp repo = new repositoryApp();
         recView4 = findViewById(R.id.rec_view_page4);
         recView4.setLayoutManager(new LinearLayoutManager(getApplication().getBaseContext())); // MAY BE WRONG
@@ -63,11 +74,12 @@ public class CommentsActivity extends AppCompatActivity {
             public boolean onMenuItemClick(MenuItem item) {
                 // Switch to the new activity when the menu item is clicked
                 Intent intent = new Intent(CommentsActivity.this, PostCommentActivity.class);
-                intent.putExtra("id_information2",id);
+                intent.putExtra("selecteddata",selected_data);
                 startActivity(intent);
                 return true;
             }
         });
         return true;
+
     }
 }

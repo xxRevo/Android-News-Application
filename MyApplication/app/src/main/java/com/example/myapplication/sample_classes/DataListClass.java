@@ -12,7 +12,7 @@ public class DataListClass implements Serializable {
         this.text = text;
         this.date = date;
         this.categoryName = categoryName;
-        this.image = this.image;
+        this.image = image;
     }
 
     public void setId(int id) {

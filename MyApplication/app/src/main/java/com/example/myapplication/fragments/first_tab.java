@@ -30,12 +30,14 @@ import java.util.List;
 
 public class first_tab extends Fragment {
     RecyclerView recView1;
+
     Handler dataHandler = new Handler(new Handler.Callback() {
         @Override
         public boolean handleMessage(@NonNull Message msg) {
             List<DataListClass> data = (List<DataListClass>)msg.obj;
 
-            recView1.setAdapter(new MyAdapter(getActivity().getApplicationContext(), data, new MyAdapter.ItemClickListener() {
+
+            recView1.setAdapter(new MyAdapter(getActivity().getApplicationContext(), data,((ThreadApplication)getActivity().getApplication()).srv ,new MyAdapter.ItemClickListener() {
                 @Override
                 public void onItemClick(DataListClass single_data) {
                     Intent i = new Intent(getContext(), DetailsActivity.class);

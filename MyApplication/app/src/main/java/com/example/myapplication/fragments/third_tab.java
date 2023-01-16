@@ -31,7 +31,7 @@ public class third_tab extends Fragment {
         public boolean handleMessage(@NonNull Message msg) {
             List<DataListClass> data = (List<DataListClass>)msg.obj;
 
-            recView3.setAdapter(new MyAdapter(getActivity().getApplicationContext(), data, new MyAdapter.ItemClickListener() {
+            recView3.setAdapter(new MyAdapter(getActivity().getApplicationContext(), data,((ThreadApplication)getActivity().getApplication()).srv ,new MyAdapter.ItemClickListener() {
                 @Override
                 public void onItemClick(DataListClass single_data) {
                     Intent i = new Intent(getContext(), DetailsActivity.class);
